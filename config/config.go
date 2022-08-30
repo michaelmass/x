@@ -148,3 +148,19 @@ func (client *Client[C]) Show() error {
 
 	return nil
 }
+
+func (client *Client[C]) Get() (*C, error) {
+	path, err := client.Path()
+
+	if err != nil {
+		return nil, errors.Wrap(err, "getting config path")
+	}
+
+	config, err := client.FromFile(path)
+
+	if err != nil {
+		return nil, errors.Wrap(err, "reading config file")
+	}
+
+	return config, nil
+}
